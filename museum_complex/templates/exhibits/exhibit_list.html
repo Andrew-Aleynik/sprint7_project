@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block title %}Экспонаты{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Экспонаты на экспозиции</h1>
+
+<div class="row">
+    {% for exhibit in exhibits %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                {% if exhibit.images.first %}
+                    <img src="{{ exhibit.images.first.image.url }}" 
+                         class="card-img-top exhibit-img" 
+                         alt="{{ exhibit.name }}">
+                {% else %}
+                    <div class="card-img-top bg-light d-flex align-items-center justify-content-center"
+                         style="height: 200px;">
+                        <span class="text-muted">Нет фото</span>
+                    </div>
+                {% endif %}
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ exhibit.name }}</h5>
+                    <p class="card-text">{{ exhibit.description|truncatewords:20 }}</p>
+                    <div class="mt-auto">
+                        <span class="badge bg-secondary">{{ exhibit.get_status_display }}</span>
+                        {% if exhibit.hall %}
+                            <span class="badge bg-info">{{ exhibit.hall }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="{% url 'exhibits:exhibit_detail' exhibit.pk %}" class="btn btn-outline-primary">
+                        Подробнее
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
