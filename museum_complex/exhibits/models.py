@@ -1,10 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 
-User = get_user_model()
-User.Meta.verbose_name = "Пользователь"
-User.Meta.verbose_name_plural = "Пользователи"
-
 
 class Floor(models.Model):
     number = models.PositiveSmallIntegerField(
